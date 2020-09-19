@@ -1,4 +1,4 @@
-# @source: https://github.com/github/gitignore/blob/master/Unity.gitignore
+# Modified from source: https://github.com/github/gitignore/blob/master/Unity.gitignore
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -14,7 +14,7 @@
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
-/[Mm]emoryCaptures/
+*/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -66,8 +66,8 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+*/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
+*/[Aa]ssets/[Ss]treamingAssets/aa.meta
+*/[Aa]ssets/[Ss]treamingAssets/aa/*
