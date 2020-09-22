@@ -7,14 +7,11 @@ msgFromClient       = "Hello UDP Server"
 bytesToSend         = str.encode(msgFromClient)
 
 # Create a UDP socket at client side
-
 UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+UDPClientSocket.sendto(bytesToSend, UDP_ADDRESS_PORT)
 
-while (True):
-  UDPClientSocket.sendto(bytesToSend, UDP_ADDRESS_PORT)
-   
+# Loop listening for responses from udp server
+while (True):  
   data, address = UDPClientSocket.recvfrom(BUFFER_SIZE)
-
   msg = "Server Response: {}".format(data)
-
   print(msg)
