@@ -1,4 +1,8 @@
 import socket
+RELAX = str(0)
+FLEXION = str(1)
+EXTENSION = str(2)
+current = "0"
 
 UDP_ADDRESS_PORT   = ("127.0.0.1", 18500)
 BUFFER_SIZE          = 1024
@@ -14,4 +18,11 @@ UDPClientSocket.sendto(bytesToSend, UDP_ADDRESS_PORT)
 while (True):  
   data, address = UDPClientSocket.recvfrom(BUFFER_SIZE)
   msg = "Server Response: {}".format(data)
-  print(msg)
+  if (current == RELAX and current != data): # rising edge
+    print("Rising Edge" + msg)
+    current = data
+
+  elif (data == RELAX and current != data): # falling edge
+    print("Falling Edge " + msg)
+    current = data
+  
