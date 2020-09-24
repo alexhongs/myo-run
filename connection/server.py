@@ -24,6 +24,10 @@ UDPServerSocket.bind((UDP_IP_ADDRESS, UDP_PORT))
 address = ""
 connect()
 
+# while (True):
+#   sendData(str(1));
+
+
 ##################
 ###### Test ######
 ##################
