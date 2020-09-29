@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 599179172}
   - component: {fileID: 599179171}
   - component: {fileID: 599179170}
+  - component: {fileID: 599179175}
   - component: {fileID: 599179174}
   m_Layer: 0
   m_Name: Ball
@@ -222,9 +223,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599179169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18759446adc924e83b1f67bf96588cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &599179175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599179169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f28327de0ca54a5696572f0446e97c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &705507993
@@ -329,6 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 824914863}
   - component: {fileID: 824914862}
+  - component: {fileID: 824914864}
   m_Layer: 0
   m_Name: EMGInput
   m_TagString: Untagged
@@ -348,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47f1f6b8747e447092fa189187fb0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 824914864}
 --- !u!4 &824914863
 Transform:
   m_ObjectHideFlags: 0
@@ -362,6 +377,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &824914864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824914861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7561d3e6790f4bb3b0683c28515c2f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 599179175}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
