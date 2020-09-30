@@ -2,8 +2,8 @@
 
 A test UDP Connection script for streaming data from client to server
 
-## Reverse UDP Server Client Model: 
-### Streamer: UDPClient and Receiver: UDPServer
+## Reverse UDP Server Client Model
+### Streamer (UDPClient)  &   Receiver (UDPServer)
 
 If the Streamer is the server, the server needs to wait for initial message from client.
 This is unneccesssary and inefficient, because streamer does not need to receive and message,
