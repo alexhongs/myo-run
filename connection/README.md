@@ -39,10 +39,10 @@ Usage
 ```
 // On Shell 1
 python3
-exec(open("server.py").read())
+exec(open("streamer.py").read())
 
 // On Shell 2
-python client.py
+python receiver.py
 
 // On Shell 1
 testStream()

@@ -1,31 +1,43 @@
 import socket
-RELAX = str(0)
-FLEXION = str(1)
-EXTENSION = str(2)
-current = "0"
 
-UDP_ADDRESS_PORT   = ("127.0.0.1", 18500)
-BUFFER_SIZE          = 1024
+###### Interface ######
+def sendData(data):
+  print("Sending Data " + data + "to " + str(address))
+  bytesToSend = str.encode(data)
+  UDPServerSocket.sendto(bytesToSend, address)
 
-msgFromClient       = "Hello UDP Server"
-bytesToSend         = str.encode(msgFromClient)
+###### Initialization ######
+UDP_IP_ADDRESS = "127.0.0.1"
+UDP_PORT = 18500
+UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+address = ('127.0.0.1', 18500)
 
-# Create a UDP socket at client side
-UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-UDPClientSocket.bind(UDP_ADDRESS_PORT)
+###### Test ######
+# test sending numbers 1 - 10000
+def testSend():
+  for i in range(10000):
+    sendData(str(i))
 
-# Loop listening for responses from udp server
-while (True):  
-  data, address = UDPClientSocket.recvfrom(BUFFER_SIZE)
-  msg = "Server Response: {}".format(data) + " | " + str(address)
-  if (current == RELAX and current != data): # rising edge
-    print("Rising Edge" + msg)
-    current = data
+# test sending all inputs incrementally, FLEX, RELAX, EXTEND, RELAX ( loop )
+def testStream():
+  RELAX = 0
+  FLEXION = 1
+  EXTENSION = 2
 
-  elif (data == RELAX and current != data): # falling edge
-    print("Falling Edge " + msg)
-    current = data
-  
+  i = 0
+  while(True):
+    if(i < 1000):
+      sendData(str(FLEXION))
+    elif (5000 <= i < 10000):
+      sendData(str(EXTENSION))
+    else:
+      sendData(str(RELAX))
+    
+    if(20000 < i):
+      i = 0
+    i+=1
+
+
 
 ############################################################################################################################################
 ## 9/29/2020 - Note on not binding on server.py / Note on binding on client.py
