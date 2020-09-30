@@ -5,7 +5,7 @@ FLEXION = b'1'
 EXTENSION = b'2'
 
 UDP_ADDRESS_PORT   = ("127.0.0.1", 18500)
-BUFFER_SIZE        = 1024
+BUFFER_SIZE        = 1 # we could set buffer size to 1024, but we really just need 1 byte
 
 # Create a UDP socket at client side
 UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
