@@ -4,19 +4,12 @@ RELAX = b'0'
 FLEXION = b'1'
 EXTENSION = b'2'
 
-
-
 UDP_ADDRESS_PORT   = ("127.0.0.1", 18500)
-BUFFER_SIZE          = 1024
-
-msgFromClient       = "Hello UDP Server"
-bytesToSend         = str.encode(msgFromClient)
+BUFFER_SIZE        = 1024
 
 # Create a UDP socket at client side
 UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 UDPClientSocket.bind(UDP_ADDRESS_PORT)
-
-
 
 current = "0"
 
