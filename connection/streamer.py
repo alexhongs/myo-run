@@ -25,7 +25,7 @@ UDP_IP_ADDRESS = "127.0.0.1"
 UDP_PORT = 18500
 UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 address = ('127.0.0.1', 18500)
-
+print("(streamer.py) Started UDP Streamer");
 ########### Test ###########
 # test sending numbers 1 - 10000
 def testSend():
