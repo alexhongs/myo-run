@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 class Ball : MonoBehaviour, Player
 {
-    float distance = 1f;
+    float distance = 5f;
 
     public void goLeft()
     {
@@ -19,11 +19,11 @@ class Ball : MonoBehaviour, Player
 
     public void goUp()
     {
-        transform.Translate(0f, distance, 0f);
+        transform.Translate(0f, distance/2, 0f);
     }
 
     public void goDown()
     {
-        transform.Translate(0f, -distance, 0f);
+        transform.Translate(0f, -distance/2, 0f);
     }
 }

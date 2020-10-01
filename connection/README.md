@@ -2,7 +2,7 @@
 
 A test UDP Connection script for streaming data from client to server
 
-## Reverse UDP Server Client Model
+
 ### Streamer (UDPClient)  &   Receiver (UDPServer)
 
 If the Streamer is the server, the server needs to wait for initial message from client.
@@ -14,7 +14,20 @@ The Streamer is the client, sending data to specific address port,
 The Receiver continuously receives information from the specific address port, having been binded to the port.
 
 
-### Integration with Myo-run
+### Mock Muscle Classifier (uses Streamer)
+
+Mock Muscle Classifier simulates results we expect to get from DSP/ML Muscle Classifier. Use mockController.py to mock sending inputs from steamer using keyboard inputs (left, right, up, down arrows).
+Left: Flexion, Right: Extension, Up: Pronation, Down: Supination
+
+```
+pip install pygame
+
+python mockController.py
+```
+
+
+### Reverse UDP Server Client Model
+
 Before:
 - UDP Server: Muscle Classifier
 - UDP Client: Unity
@@ -30,30 +43,22 @@ After:
 
 New UDP Client
 - testStream() - sends mock inputs 0000 1111 0000 2222 ....
+- mockController.py - sends mock inputs controlled by keyboard
 
 New UDP Server
 - Rising and Falling edge detection
 
-Usage
+
+### Testing
 
 ```
 // On Shell 1
 python
 exec(open("streamer.py").read())
 
-// On Shell 2
-python receiver.py
-
 // On Shell 1
 testStream()
-```
 
-
-Use mockController.py to mock sending inputs from steamer using keyboard inputs (left, right, up, down arrows).
-This will mock the Muscle EMG Classification results from the DSP/ML side of the project.
-
-```
-pip install pynput
-
-python streamer.py mockController.py
+// On Shell 2
+python receiver.py
 ```

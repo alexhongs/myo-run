@@ -3,6 +3,8 @@ import socket
 RELAX = b'0'
 FLEXION = b'1'
 EXTENSION = b'2'
+PRONATION = b'3'
+SUPINATION = b'4'
 
 UDP_ADDRESS_PORT   = ("127.0.0.1", 18500)
 BUFFER_SIZE        = 1 # we could set buffer size to 1024, but we really just need 1 byte

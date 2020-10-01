@@ -45,7 +45,7 @@ public class EMGController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(input.getButtonInput(EMG.Flexion))
+        if (input.getButtonInput(EMG.Flexion))
         {
             Debug.Log("Flexion Button Input!");
             Ball b = (Ball)player;
@@ -60,10 +60,14 @@ public class EMGController : MonoBehaviour
         else if (input.getButtonInput(EMG.Pronation))
         {
             Debug.Log("Pronation Button Input!");
+            Ball b = (Ball)player;
+            b.goUp();
         }
         else if (input.getButtonInput(EMG.Supination))
         {
             Debug.Log("Supination Button Input!");
+            Ball b = (Ball)player;
+            b.goDown();
         }
     }
 

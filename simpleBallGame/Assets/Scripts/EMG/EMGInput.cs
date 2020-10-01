@@ -12,19 +12,20 @@ public enum EMG : byte
     None = 0,
     Flexion = 1,
     Extension = 2,
-    Supination = 3,
-    Pronation = 4,
+    Pronation = 3,
+    Supination = 4,
 }
 
 public class EMGInput : MonoBehaviour
 {
     EMG lastInput;
-
+    bool alreadyPressed;
     Socket socket;
     Thread thread;
     void Start()
     {
         lastInput = EMG.None;
+        alreadyPressed = false;
 
         thread = new Thread(StartReceiver);
         thread.Priority = System.Threading.ThreadPriority.BelowNormal;
@@ -47,20 +48,7 @@ public class EMGInput : MonoBehaviour
             int recv = socket.ReceiveFrom(data, ref ep);
             //Debug.Log(Encoding.ASCII.GetString(data, 0, 1));
 
-            string b = Encoding.ASCII.GetString(data, 0, 10); // Received
-            if (b == "0")
-            {
-                //Debug.Log("Received " + b);
-            }
-            else if (b == "1")
-            {
-                //Debug.Log("Received " + b);
-            }
-            else
-            {
-                //Debug.Log("Received " + b);
-            }
-
+            string b = Encoding.ASCII.GetString(data, 0, 1); // Received
             DecodeMessage(b);
         }
     }
@@ -72,14 +60,22 @@ public class EMGInput : MonoBehaviour
             EMG newInput = (EMG)Byte.Parse(message);
             if (lastInput.Equals(EMG.None) && !lastInput.Equals(newInput))
             {
-                Debug.Log("Rising Edge" + newInput);
+                //Debug.Log("Rising Edge" + newInput);
                 //controller.Do(newInput);
+                alreadyPressed = false;
                 lastInput = newInput;
             }
             else if (newInput.Equals(EMG.None) && !lastInput.Equals(newInput)) // This is assuming it always reaches 0 before other input
             {
                 //Debug.Log("Falling Edge" + newInput);
                 lastInput = newInput;
+                alreadyPressed = false;
+            }
+
+            if (newInput.Equals(EMG.None))
+            {
+                lastInput = newInput;
+                alreadyPressed = false;
             }
         }
         catch (Exception e)
@@ -91,19 +87,25 @@ public class EMGInput : MonoBehaviour
 
     public bool getButtonInput(EMG emg)
     {
-        return lastInput.Equals(emg);
+        if (lastInput.Equals(emg) && !alreadyPressed && !lastInput.Equals(EMG.None))
+        {
+            Debug.Log("Pressed " + emg.ToString() + " last input : " + lastInput.ToString());
+            alreadyPressed = true;
+            return true;
+        }
+        return false;
     }
 
     public void OnDestroy()
     {
-        socket.Close();
         thread.Abort();
+        socket.Close();
     }
 
     public void OnApplicationQuit()
     {
-        socket.Close();
         thread.Abort();
+        socket.Close();
     }
 }
 

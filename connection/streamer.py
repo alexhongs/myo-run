@@ -1,11 +1,13 @@
 import socket
 import enum
 
-###### Interface ######
+######## Interface ########
 class EMG(enum.Enum):
   RELAX = 0
   FLEXION = 1
   EXTENSION = 2
+  PRONATION = 3
+  SUPINATION = 4
 
   def __int__(self):
     return self.value
@@ -24,7 +26,7 @@ UDP_PORT = 18500
 UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 address = ('127.0.0.1', 18500)
 
-###### Test ######
+########### Test ###########
 # test sending numbers 1 - 10000
 def testSend():
   for i in range(10000):
@@ -40,9 +42,18 @@ def testStream():
       sendData(str(EMG.FLEXION))
     elif (10000 <= i < 15000):
       sendData(str(EMG.RELAX))
-    else:
+    elif (15000 <= i < 20000):
       sendData(str(EMG.EXTENSION))
-    if(20000 < i):
+    elif (25000 <= i < 30000):
+      sendData(str(EMG.RELAX))
+    elif (35000 <= i < 40000):
+      sendData(str(EMG.PRONATION))
+    elif (45000 <= i < 50000):
+      sendData(str(EMG.RELAX))
+    elif (55000 <= i < 60000):
+      sendData(str(EMG.SUPINATION))
+
+    if(60000 < i):
       i = 0
     i+=1
 

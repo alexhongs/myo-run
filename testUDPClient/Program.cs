@@ -27,21 +27,9 @@ namespace UDPClient
                 int recv = socket.ReceiveFrom(data, ref ep);
 
                 string b = Encoding.ASCII.GetString(data, 0, 1); // Received Data
-                if(b == "0")
-                {
-                    //Console.WriteLine("Received " + b);
-                }
-                else if (b == "1")
-                {
-                    Console.WriteLine("Received " + b);
-                }
-                else
-                {
-                    //Console.WriteLine("Received " + b);
-                }
+                Console.WriteLine("Received " + b);
             }
         }
-
 
         // Asynchronous Receiver is not working and is somewhat buggy. Do we even need this at this point?
         void AsyncStart()

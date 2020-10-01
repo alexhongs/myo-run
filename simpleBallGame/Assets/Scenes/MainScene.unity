@@ -362,7 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47f1f6b8747e447092fa189187fb0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 824914864}
 --- !u!4 &824914863
 Transform:
   m_ObjectHideFlags: 0
@@ -390,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 599179175}
+  input: {fileID: 824914862}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
