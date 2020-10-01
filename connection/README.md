@@ -38,7 +38,7 @@ Usage
 
 ```
 // On Shell 1
-python3
+python
 exec(open("streamer.py").read())
 
 // On Shell 2
@@ -46,4 +46,14 @@ python receiver.py
 
 // On Shell 1
 testStream()
+```
+
+
+Use mockController.py to mock sending inputs from steamer using keyboard inputs (left, right, up, down arrows).
+This will mock the Muscle EMG Classification results from the DSP/ML side of the project.
+
+```
+pip install pynput
+
+python streamer.py mockController.py
 ```

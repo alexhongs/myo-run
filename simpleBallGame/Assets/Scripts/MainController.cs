@@ -30,5 +30,10 @@ public class MainController : MonoBehaviour
             transform.Translate(0, -mag, 0f);
             print("Pressed Down");
         }
+
+
+
+
+
     }
 }

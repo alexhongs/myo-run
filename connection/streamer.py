@@ -1,8 +1,20 @@
 import socket
+import enum
 
 ###### Interface ######
+class EMG(enum.Enum):
+  RELAX = 0
+  FLEXION = 1
+  EXTENSION = 2
+
+  def __int__(self):
+    return self.value
+
+  def __str__(self):
+    return str(self.value)
+
 def sendData(data):
-  print("Sending Data " + data + "to " + str(address))
+  print("Sending Data " + data + " to " + str(address))
   bytesToSend = str.encode(data)
   UDPServerSocket.sendto(bytesToSend, address)
 
@@ -20,22 +32,20 @@ def testSend():
 
 # test sending all inputs incrementally, FLEX, RELAX, EXTEND, RELAX ( loop )
 def testStream():
-  RELAX = 0
-  FLEXION = 1
-  EXTENSION = 2
-
   i = 0
   while(True):
-    if(i < 1000):
-      sendData(str(FLEXION))
+    if(0<= i < 5000):
+      sendData(str(EMG.RELAX))
     elif (5000 <= i < 10000):
-      sendData(str(EXTENSION))
+      sendData(str(EMG.FLEXION))
+    elif (10000 <= i < 15000):
+      sendData(str(EMG.RELAX))
     else:
-      sendData(str(RELAX))
-    
+      sendData(str(EMG.EXTENSION))
     if(20000 < i):
       i = 0
     i+=1
+
 
 
 

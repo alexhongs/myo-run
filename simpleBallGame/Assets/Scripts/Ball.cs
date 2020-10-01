@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 class Ball : MonoBehaviour, Player
 {
-    float distance = 10f;
+    float distance = 1f;
+
     public void goLeft()
     {
         transform.Translate(-distance, 0f, 0f);
@@ -23,16 +25,5 @@ class Ball : MonoBehaviour, Player
     public void goDown()
     {
         transform.Translate(0f, -distance, 0f);
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

@@ -18,71 +18,50 @@ public enum EMG : byte
 
 public class EMGInput : MonoBehaviour
 {
-    UdpClient client;
-    IPAddress serverIP;
-    string hostIP = "127.0.0.1";
-    int port = 18500;
-    Socket socket;
-    Byte[] buffer;
-    EndPoint epServer;
-
     EMG lastInput;
 
-    public EMGController controller;
-
+    Socket socket;
+    Thread thread;
     void Start()
     {
         lastInput = EMG.None;
-        StartCoroutine(UDPClientReceive());
+
+        thread = new Thread(StartReceiver);
+        thread.Priority = System.Threading.ThreadPriority.BelowNormal;
+        thread.Start();
     }
 
-    IEnumerator UDPClientReceive()
+    void StartReceiver()
     {
-        bool workDone = false;
-
         Debug.Log("Starting Client");
-        serverIP = IPAddress.Parse(hostIP);
-        IPEndPoint server = new IPEndPoint(serverIP, port);
-        epServer = (EndPoint)server;
 
+        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 18500);
+        EndPoint ep = (EndPoint)ipep;
+        socket = new Socket(AddressFamily.InterNetwork,
+                  SocketType.Dgram, ProtocolType.Udp);
+        socket.Bind((EndPoint)ipep);
 
-        client = new UdpClient();
-        client.Connect(server);
-
-        Byte[] sendBytes = Encoding.ASCII.GetBytes("Is anybody there?");
-        client.Send(sendBytes, sendBytes.Length);
-        yield return null; // gives extra breathing time 
-        //Inefficient algorithm but working version
-        while (!workDone)
+        while (true)
         {
-            yield return null;
-            Byte[] receiveBytes = client.Receive(ref server);
-            string message = Encoding.ASCII.GetString(receiveBytes);
-            DecodeMessage(message);
-        }
-    }
+            byte[] data = new byte[1024];
+            int recv = socket.ReceiveFrom(data, ref ep);
+            //Debug.Log(Encoding.ASCII.GetString(data, 0, 1));
 
-    private void ReceiveData(IAsyncResult ar)
-    {
-        try
-        {
-            // Receive all data
-            int x = this.socket.EndReceive(ar);
+            string b = Encoding.ASCII.GetString(data, 0, 10); // Received
+            if (b == "0")
+            {
+                //Debug.Log("Received " + b);
+            }
+            else if (b == "1")
+            {
+                //Debug.Log("Received " + b);
+            }
+            else
+            {
+                //Debug.Log("Received " + b);
+            }
 
-            string message = Encoding.ASCII.GetString(buffer, 0, x);
-            DecodeMessage(message);
-
-            // Reset data stream
-            this.buffer = new byte[1024];
-
-            // Continue listening for broadcasts
-            socket.BeginReceiveFrom(this.buffer, 0, this.buffer.Length, SocketFlags.None, ref epServer, new AsyncCallback(this.ReceiveData), null);
-        }
-        catch (ObjectDisposedException)
-        { }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
+            DecodeMessage(b);
         }
     }
 
@@ -94,28 +73,37 @@ public class EMGInput : MonoBehaviour
             if (lastInput.Equals(EMG.None) && !lastInput.Equals(newInput))
             {
                 Debug.Log("Rising Edge" + newInput);
-                controller.Do(newInput);
+                //controller.Do(newInput);
                 lastInput = newInput;
             }
-            else if(newInput.Equals(EMG.None) && !lastInput.Equals(newInput))
+            else if (newInput.Equals(EMG.None) && !lastInput.Equals(newInput)) // This is assuming it always reaches 0 before other input
             {
-                Debug.Log("Falling Edge" + newInput);
+                //Debug.Log("Falling Edge" + newInput);
                 lastInput = newInput;
             }
-                //if (current == RELAX and current != data): # rising edge
-                //print("Rising Edge" + msg)
-                //current = data
-
-                //elif(data == RELAX and current != data): # falling edge
-                //print("Falling Edge " + msg)
-                //current = data
-
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log(e.ToString());
         }
-        
+    }
 
+
+    public bool getButtonInput(EMG emg)
+    {
+        return lastInput.Equals(emg);
+    }
+
+    public void OnDestroy()
+    {
+        socket.Close();
+        thread.Abort();
+    }
+
+    public void OnApplicationQuit()
+    {
+        socket.Close();
+        thread.Abort();
     }
 }
+
