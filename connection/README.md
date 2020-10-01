@@ -1,7 +1,17 @@
-# Test UDP Connection
+# UDP Connection
 
-A test UDP Connection script for streaming data from client to server
+A UDP Connection socket for streaming data from Streamer to Receiver
 
+## Components
+
+Contains 2 main components and 2 test components
+Main Components:
+- Streamer (streamer.py)
+- Receiver (receiver.py)
+
+Test Components:
+- Test Streamer (streamer.py)
+- Mock Muscle Classifier (mockController.py)
 
 ### Streamer (UDPClient)  &   Receiver (UDPServer)
 
@@ -25,7 +35,7 @@ pip install pygame
 python mockController.py
 ```
 
-
+## Model
 ### Reverse UDP Server Client Model
 
 Before:
@@ -49,16 +59,24 @@ New UDP Server
 - Rising and Falling edge detection
 
 
-### Testing
+## Testing
 
+### 1. Open Receiver
+You can open up a Unity Project or testUDPConnection, or run
 ```
-// On Shell 1
+python receiver.py
+```
+
+### 2. Open Test Streamer (Option 1)
+```
 python
 exec(open("streamer.py").read())
-
-// On Shell 1
 testStream()
+```
 
-// On Shell 2
-python receiver.py
+### 2. Open Mock Controller (Option 2)
+```
+pip install pygame
+
+python mockController.py
 ```
