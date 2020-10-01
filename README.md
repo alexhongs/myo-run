@@ -23,14 +23,14 @@ Opening Unity Game Project
 6. Click Play button to start game
 
 
-### [UDP Connection](https://github.com/alexhongs/myo-run/tree/master/connection)
+### UDP Connection ([link](https://github.com/alexhongs/myo-run/tree/master/connection))
 UDP Streamer - sends data to specific address port. This is the Client in classical UDP Server Client model.
 UDP Receiver continuously receives information from the specific address port, having been binded to the port. This is the Server in classical UDP Server model.
 
 Click [here](https://github.com/alexhongs/myo-run/blob/master/connection/README.md) for more explanation
 
 
-### [Mock Muscle Classifier](https://github.com/alexhongs/myo-run/tree/master/connection)
+### Mock Muscle Classifier ([link](https://github.com/alexhongs/myo-run/tree/master/connection))
 
 Mock Muscle Classifier simulates results we expect to get from DSP/ML Muscle Classifier. Use mockController.py to mock sending inputs from steamer using keyboard inputs (left, right, up, down arrows).
 
