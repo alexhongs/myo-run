@@ -58,6 +58,28 @@ New UDP Client
 New UDP Server
 - Rising and Falling edge detection
 
+### Usage
+Create your working python file under the same directory as streamer.py. 
+
+Importing streamer will automatically set up to host: 127.0.0.1 with port: 18500
+```
+import streamer
+```
+
+To use the EMG constants
+```
+from streamer import EMG
+```
+
+To send data to Receiver
+```
+streamer.sendData( data_in_str )
+```
+
+For example, this will send out Flexion output.
+```
+streamer.sendData(str(EMG.FLEXION))
+```
 
 ## Testing
 
