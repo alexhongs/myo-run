@@ -16,11 +16,12 @@ List of Projects:
 
 Opening Unity Game Project
 1. [Download](https://unity3d.com/get-unity/download) Unity Hub
-2. Open Unity Hub
-3. Click Projects > Add > go into myo-run directory > click Unity Project and click Open
-4. Open Project
-5. Under Projects Tab, go to Assets > Scenes > and click Scenes to load project
-6. Click Play button to start game
+2. Download Unity version 2019.4.10f1
+3. Open Unity Hub
+4. Click Projects > Add > go into myo-run directory > click Unity Project and click Open
+5. Open Project
+6. Under Projects Tab, go to Assets > Scenes > and click Scenes to load project
+7. Click Play button to start game
 
 
 ### UDP Connection ([link](https://github.com/alexhongs/myo-run/tree/master/connection))
