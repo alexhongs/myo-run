@@ -546,7 +546,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650359723}
   m_LocalRotation: {x: 0.054078825, y: 0, z: 0, w: 0.9985367}
-  m_LocalPosition: {x: -0.07, y: 0.31, z: 3.23}
+  m_LocalPosition: {x: 0, y: 0.31, z: 3.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1173425574}
@@ -583,8 +583,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   spawnManager: {fileID: 2112666570}
+  rb: {fileID: 650359725}
   COLUMN_DISTANCE: 3
-  velocity_x: 0
+  horizontalSpeed: 10
+  slide_duration: 0.35
 --- !u!65 &650359728
 BoxCollider:
   m_ObjectHideFlags: 0
