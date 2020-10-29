@@ -1,10 +1,11 @@
 // potentiometer_read.ino
 // reads a potentiometer and sends value over serial
+int sensorPin0 = A0;  // The sensor on pin A0 
 int sensorPin1 = A1;  // The sensor on pin A1   
 int sensorPin2 = A2;  // The sensor on pin A2   
 int sensorPin3 = A3;  // The sensor on pin A3      
 int sensorPin4 = A4;  // The sensor on pin A4   
-int sensorPin5 = A5;  // The sensor on pin A5   
+//int sensorPin5 = A5;  // The sensor on pin A5   
   
            
 int ledPin = 13;     // The LED is connected on pin 13
@@ -23,11 +24,12 @@ void setup() // runs once when the sketch starts
 void loop() // runs repeatedly after setup() finishes
 {
   
+  int sensorValue0 = analogRead(sensorPin0);  // read pin A0 
   int sensorValue1 = analogRead(sensorPin1);  // read pin A0   
   int sensorValue2 = analogRead(sensorPin2);  // read pin A0   
   int sensorValue3 = analogRead(sensorPin3);  // read pin A0 
   int sensorValue4 = analogRead(sensorPin4);  // read pin A0   
-  int sensorValue5 = analogRead(sensorPin5);  // read pin A0   
+  //int sensorValue5 = analogRead(sensorPin5);  // read pin A0   
 
   
   /*
@@ -39,7 +41,7 @@ void loop() // runs repeatedly after setup() finishes
   //outputValue=sensorValue;
   //outputValue = map(sensorValue, 0, 1023, 0, 255);
 
-  outputValue=String(String(sensorValue1) + "  " + String(sensorValue2) + "  " + String(sensorValue3) + "  " + String(sensorValue4) + "  " + String(sensorValue5));
+  outputValue=String(String(sensorValue0) + "  " + String(sensorValue1) + "  " + String(sensorValue2) + "  " + String(sensorValue3) + "  " + String(sensorValue4));// + "  " + String(sensorValue5));
   
   //Serial.print(sensorValue1);         // send data to serial
   //Serial.print(sensorValue2);         // send data to serial

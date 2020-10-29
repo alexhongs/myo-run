@@ -11,9 +11,20 @@ numElectrodes = 5;
 # set up the serial line
 ser = serial.Serial('/dev/cu.usbmodem143101', 9600)
 
-for j in range(1): #how many trials
+
+for j in range(20): #how many trials
     print("entering trial",j)
-    time.sleep(1.5)
+    time.sleep(1)
+    print("in 500 ms",j)
+    time.sleep(0.1)
+    print("in 400 ms",j)
+    time.sleep(0.1)
+    print("in 300 ms",j)
+    time.sleep(0.1)
+    print("in 200 ms",j)
+    time.sleep(0.1)
+    print("in 100 ms",j)
+    time.sleep(0.1)
     #print('recording now')
     #time.sleep(1)
     # Read and record the data
