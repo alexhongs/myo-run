@@ -7,11 +7,11 @@ public class PlayerController : MonoBehaviour, Player
     public float movementSpeed = 10f;
     public SpawnManager spawnManager;
 
-    public Rigidbody rb;
+    Rigidbody rb;
     Vector3 velocity;
 
-    public float COLUMN_DISTANCE = 3.0f;
-    public float gravity = 20.0f;
+    float COLUMN_DISTANCE = 3.0f;
+    float gravity = 20.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour, Player
         velocity = new Vector3(0, 0, movementSpeed);
         lane = 0;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -42,17 +42,11 @@ public class PlayerController : MonoBehaviour, Player
             this.goDown();
         }
 
-        if(!isGrounded)
-        {
-            velocity.y -= (gravity * Time.deltaTime);
-            //if (transform.position.y - velocity.y < 0)
-            //{
-            //    isGrounded = true;
-            //    velocity.y = 0;
-            //}
-
-            //rb.velocity = velocity;
-        }
+        //if (!isGrounded)
+        //{
+        //    velocity.y -= (gravity * Time.deltaTime);
+        //}
+        velocity.y -= (gravity * Time.deltaTime);
         rb.velocity = velocity;
     }
 
@@ -109,7 +103,7 @@ public class PlayerController : MonoBehaviour, Player
         //this.transform.position = new Vector3(new_x, this.transform.position.y, this.transform.position.z);
     }
 
-    float jumpForce = 20.0f;
+    float jumpForce = 13.0f;
     bool isGrounded = true;
     public void goUp()
     {
@@ -118,6 +112,7 @@ public class PlayerController : MonoBehaviour, Player
         //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
         velocity.y = jumpForce;
         //StartCoroutine(stopJump());
+        //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     public void goDown()
@@ -131,12 +126,10 @@ public class PlayerController : MonoBehaviour, Player
         yield return new WaitForSeconds(slide_duration);
         lane += lane_step;
 
-        //rb.velocity = new Vector3(0, 0, movementSpeed);
-
         velocity.x = 0;
         velocity.z = movementSpeed;
 
-        // Aligns to center so that left and right movements are calibrated back
+        // Buggy: Aligns to center so that left and right movements are calibrated back
         if (lane == CENTER_LANE)
         {
             this.transform.position = new Vector3(0, this.transform.position.y, this.transform.position.z);
