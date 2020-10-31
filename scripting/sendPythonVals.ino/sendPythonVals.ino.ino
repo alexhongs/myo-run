@@ -4,7 +4,7 @@ int sensorPin0 = A0;  // The sensor on pin A0
 int sensorPin1 = A1;  // The sensor on pin A1   
 int sensorPin2 = A2;  // The sensor on pin A2   
 int sensorPin3 = A3;  // The sensor on pin A3      
-int sensorPin4 = A4;  // The sensor on pin A4   
+int sensorPin4 = A5;  // The sensor on pin A4   
 //int sensorPin5 = A5;  // The sensor on pin A5   
   
            
