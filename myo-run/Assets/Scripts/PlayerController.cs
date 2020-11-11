@@ -50,12 +50,12 @@ public class PlayerController : MonoBehaviour, Player
             this.goDown();
         }
         //parent_rb.velocity = new Vector3(0, 0, movementSpeed);
-        if (!isGrounded)
-        {
-            velocity.y -= (gravity * Time.deltaTime);
-        }
+        //if (!isGrounded)
+        //{
+        //    velocity.y -= (gravity * Time.deltaTime);
+        //}
 
-        parent_rb.velocity = velocity;
+        //parent_rb.velocity = velocity;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,7 +65,14 @@ public class PlayerController : MonoBehaviour, Player
             Debug.Log("Road Spawn Trigger Entered");
             spawnManager.SpawnTriggerEntered();
         }
-        Debug.Log("Player Trigger Enter!");
+        if(other.tag == "ObstacleRoad")
+        {
+            Debug.Log("Obstacle Road Entered");
+            isGrounded = true;
+            santaAnimator.SetTrigger("run");
+            santaAnimator.ResetTrigger("jump");
+        }
+        //Debug.Log("Player Trigger Enter!");
     }
 
     public float horizontalSpeed = 10.0f;
@@ -119,15 +126,10 @@ public class PlayerController : MonoBehaviour, Player
         if(isGrounded)
         {
             isGrounded = false;
-            //if(velocity.y == 0.0f)
-            //{
-            //    velocity.y = jumpForce;
-            //}
-            //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
             velocity.y = jumpForce;
-            //StartCoroutine(stopJump());
-            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
             santaAnimator.SetTrigger("jump");
+            santaAnimator.ResetTrigger("run");
         }
     }
 

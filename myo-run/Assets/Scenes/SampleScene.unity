@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 41244756}
   - component: {fileID: 41244754}
   - component: {fileID: 41244757}
+  - component: {fileID: 41244758}
   m_Layer: 0
   m_Name: PlayerParent
   m_TagString: PlayerParent
@@ -149,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 41244752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.18, z: 0.29}
+  m_LocalPosition: {x: 0, y: 0.18, z: 5.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 650359724}
@@ -232,6 +233,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 650359726}
+--- !u!114 &41244758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41244752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaebfa5c4baff4ec6a2b57952b1157cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &51366085
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +837,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -412922992120432100, guid: 52fbf40541b8346859cb365a50ac170a,
         type: 3}
+      propertyPath: obstaclePrefabHard.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -412922992120432100, guid: 52fbf40541b8346859cb365a50ac170a,
+        type: 3}
       propertyPath: obstaclePrefabEasy.Array.data[0]
       value: 
       objectReference: {fileID: 2209392945204377804, guid: 9b4289ffe0b5140b5b12007cf29e4605,
@@ -876,6 +894,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2197468058680247873, guid: b77359697fd184fad854f9088319f048,
         type: 3}
+    - target: {fileID: -412922992120432100, guid: 52fbf40541b8346859cb365a50ac170a,
+        type: 3}
+      propertyPath: obstaclePrefabHard.Array.data[0]
+      value: 
+      objectReference: {fileID: 7390712056667287637, guid: 8aecc47b998ea4d0c8426549755f6046,
+        type: 3}
     - target: {fileID: 791971946322628520, guid: 52fbf40541b8346859cb365a50ac170a,
         type: 3}
       propertyPath: m_IsTrigger
@@ -899,7 +923,7 @@ PrefabInstance:
     - target: {fileID: 2897445464062316874, guid: 52fbf40541b8346859cb365a50ac170a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -43.17
+      value: -65.8
       objectReference: {fileID: 0}
     - target: {fileID: 2897445464062316874, guid: 52fbf40541b8346859cb365a50ac170a,
         type: 3}
