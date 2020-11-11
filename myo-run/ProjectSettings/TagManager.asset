@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Character
   - SpawnTrigger
+  - Obstacle
+  - ObstacleEasy
+  - ObstacleNormal
+  - ObstacleHard
+  - Road
   layers:
   - Default
   - TransparentFX

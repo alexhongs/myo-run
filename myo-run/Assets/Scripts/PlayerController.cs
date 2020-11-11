@@ -52,11 +52,20 @@ public class PlayerController : MonoBehaviour, Player
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Player on trigger enter " + other.tag);
-
         if (other.tag == "SpawnTrigger")
         {
+            Debug.Log("Road Spawn Trigger Entered");
             spawnManager.SpawnTriggerEntered();
+        }
+        Debug.Log("Player Trigger Enter!");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Player Collision Enter!");
+        if (collision.collider.tag == "Road")
+        {
+            isGrounded = true;
         }
     }
 
@@ -108,11 +117,18 @@ public class PlayerController : MonoBehaviour, Player
     public void goUp()
     {
         Debug.Log("Player Jump");
-        isGrounded = false;
-        //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
-        velocity.y = jumpForce;
-        //StartCoroutine(stopJump());
-        //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if(isGrounded)
+        {
+            isGrounded = false;
+            //if(velocity.y == 0.0f)
+            //{
+            //    velocity.y = jumpForce;
+            //}
+            //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
+            velocity.y = jumpForce;
+            //StartCoroutine(stopJump());
+            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     public void goDown()
