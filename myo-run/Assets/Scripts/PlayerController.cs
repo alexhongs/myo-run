@@ -6,20 +6,28 @@ public class PlayerController : MonoBehaviour, Player
 {
     public float movementSpeed = 10f;
     public SpawnManager spawnManager;
-
+    GameObject playerParent;
     Rigidbody rb;
+    Rigidbody parent_rb;
     Vector3 velocity;
+
+    Animator animator;
+    public Animator santaAnimator;
 
     float COLUMN_DISTANCE = 3.0f;
     float gravity = 20.0f;
     // Start is called before the first frame update
     void Start()
     {
+        playerParent = GameObject.FindGameObjectWithTag("PlayerParent");
         rb = this.GetComponent<Rigidbody>();
-        
-        rb.velocity = new Vector3(0,0, movementSpeed);
+        parent_rb = playerParent.GetComponent<Rigidbody>();
+        parent_rb.velocity = new Vector3(0,0, movementSpeed);
         velocity = new Vector3(0, 0, movementSpeed);
         lane = 0;
+
+        animator = this.GetComponent<Animator>();
+        //santaAnimator = this.GetComponentInChildren<Animator>();
     }
     
     // Update is called once per frame
@@ -41,13 +49,13 @@ public class PlayerController : MonoBehaviour, Player
         {
             this.goDown();
         }
+        //parent_rb.velocity = new Vector3(0, 0, movementSpeed);
+        if (!isGrounded)
+        {
+            velocity.y -= (gravity * Time.deltaTime);
+        }
 
-        //if (!isGrounded)
-        //{
-        //    velocity.y -= (gravity * Time.deltaTime);
-        //}
-        velocity.y -= (gravity * Time.deltaTime);
-        rb.velocity = velocity;
+        parent_rb.velocity = velocity;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,15 +66,6 @@ public class PlayerController : MonoBehaviour, Player
             spawnManager.SpawnTriggerEntered();
         }
         Debug.Log("Player Trigger Enter!");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Player Collision Enter!");
-        if (collision.collider.tag == "Road")
-        {
-            isGrounded = true;
-        }
     }
 
     public float horizontalSpeed = 10.0f;
@@ -113,7 +112,7 @@ public class PlayerController : MonoBehaviour, Player
     }
 
     float jumpForce = 13.0f;
-    bool isGrounded = true;
+    public bool isGrounded = true;
     public void goUp()
     {
         Debug.Log("Player Jump");
@@ -128,12 +127,18 @@ public class PlayerController : MonoBehaviour, Player
             velocity.y = jumpForce;
             //StartCoroutine(stopJump());
             //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            santaAnimator.SetTrigger("jump");
         }
     }
 
     public void goDown()
     {
         Debug.Log("Player Slide");
+        if (isGrounded)
+        {
+            animator.SetTrigger("slide");
+        }
+        
         //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
     }
 
