@@ -54,8 +54,9 @@ public class PlayerController : MonoBehaviour, Player
         //{
         //    velocity.y -= (gravity * Time.deltaTime);
         //}
-
+        //parent_rb.velocity = new Vector3(parent_rb.velocity.x,)
         //parent_rb.velocity = velocity;
+        parent_rb.velocity = new Vector3(parent_rb.velocity.x, parent_rb.velocity.y, movementSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,8 +92,9 @@ public class PlayerController : MonoBehaviour, Player
         {
             lane -= 0.5f;
             //rb.velocity = new Vector3(-horizontalSpeed, 0, movementSpeed);
-            velocity.x = -horizontalSpeed;
-            velocity.z = movementSpeed;
+            //velocity.x = -horizontalSpeed;
+            //velocity.z = movementSpeed;
+            parent_rb.velocity = new Vector3(-horizontalSpeed, parent_rb.velocity.y , movementSpeed);
             StartCoroutine(stopSlide(-0.5f));
         }
 
@@ -108,8 +110,9 @@ public class PlayerController : MonoBehaviour, Player
         {
             lane += 0.5f;
             //rb.velocity = new Vector3(horizontalSpeed, 0, movementSpeed);
-            velocity.x = horizontalSpeed;
-            velocity.z = movementSpeed;
+            //velocity.x = horizontalSpeed;
+            //velocity.z = movementSpeed;
+            parent_rb.velocity = new Vector3(horizontalSpeed, parent_rb.velocity.y, movementSpeed);
             StartCoroutine(stopSlide(0.5f));
         }
 
@@ -126,8 +129,8 @@ public class PlayerController : MonoBehaviour, Player
         if(isGrounded)
         {
             isGrounded = false;
-            velocity.y = jumpForce;
-
+            //velocity.y = jumpForce;
+            parent_rb.velocity = new Vector3(parent_rb.velocity.x, 11.0f, movementSpeed);
             santaAnimator.SetTrigger("jump");
             santaAnimator.ResetTrigger("run");
         }
@@ -152,6 +155,7 @@ public class PlayerController : MonoBehaviour, Player
         velocity.x = 0;
         velocity.z = movementSpeed;
 
+        parent_rb.velocity = new Vector3(0, parent_rb.velocity.y, movementSpeed);
         // Buggy: Aligns to center so that left and right movements are calibrated back
         if (lane == CENTER_LANE)
         {
