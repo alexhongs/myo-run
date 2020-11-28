@@ -7,27 +7,21 @@ public class PlayerController : MonoBehaviour, Player
     public float movementSpeed = 10f;
     public SpawnManager spawnManager;
     GameObject playerParent;
-    Rigidbody rb;
     Rigidbody parent_rb;
-    Vector3 velocity;
 
     Animator animator;
     public Animator santaAnimator;
 
-    float COLUMN_DISTANCE = 3.0f;
-    float gravity = 20.0f;
     // Start is called before the first frame update
     void Start()
     {
         playerParent = GameObject.FindGameObjectWithTag("PlayerParent");
-        rb = this.GetComponent<Rigidbody>();
         parent_rb = playerParent.GetComponent<Rigidbody>();
         parent_rb.velocity = new Vector3(0,0, movementSpeed);
         velocity = new Vector3(0, 0, movementSpeed);
         lane = 0;
 
         animator = this.GetComponent<Animator>();
-        //santaAnimator = this.GetComponentInChildren<Animator>();
     }
     
     // Update is called once per frame
@@ -49,14 +43,28 @@ public class PlayerController : MonoBehaviour, Player
         {
             this.goDown();
         }
-        //parent_rb.velocity = new Vector3(0, 0, movementSpeed);
-        //if (!isGrounded)
-        //{
-        //    velocity.y -= (gravity * Time.deltaTime);
-        //}
-        //parent_rb.velocity = new Vector3(parent_rb.velocity.x,)
-        //parent_rb.velocity = velocity;
+
         parent_rb.velocity = new Vector3(parent_rb.velocity.x, parent_rb.velocity.y, movementSpeed);
+    }
+    public float h_speed = 10.0f;
+    private void FixedUpdate()
+    {
+        if (isLaneChanging)
+        {
+            Vector3 horizontalMove = transform.right * h_speed * Time.fixedDeltaTime;
+            Vector3 newPosition = parent_rb.position + horizontalMove;
+            if(newPosition.x > 3.7f)
+            {
+                isLaneChanging = false;
+                lane += lane_step;
+            }
+            if(newPosition.x < -3.7f)
+            {
+                isLaneChanging = false;
+                lane += lane_step;
+            }
+            parent_rb.MovePosition(parent_rb.position + horizontalMove);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,23 +92,19 @@ public class PlayerController : MonoBehaviour, Player
     float LEFT_LANE = -1.0f;
 
     float lane = 0; // left: -1, center: 0, right: 1
-    
+    bool isLaneChanging = false;
+    float lane_step = 0.0f;
+
     public void goLeft()
     {
         Debug.Log("Player Left");
         if (lane == RIGHT_LANE || lane == CENTER_LANE)
         {
-            lane -= 0.5f;
-            //rb.velocity = new Vector3(-horizontalSpeed, 0, movementSpeed);
-            //velocity.x = -horizontalSpeed;
-            //velocity.z = movementSpeed;
-            parent_rb.velocity = new Vector3(-horizontalSpeed, parent_rb.velocity.y , movementSpeed);
-            StartCoroutine(stopSlide(-0.5f));
+            lane_step = -0.5f;
+            lane += lane_step;
+            isLaneChanging = true;
+            h_speed = -1 * Mathf.Abs(h_speed);
         }
-
-        // This code locks to lane, which is not preferable
-        //float new_x = (this.transform.position.x == COLUMN_DISTANCE) ? 0 : -COLUMN_DISTANCE;
-        //this.transform.position = new Vector3(new_x, this.transform.position.y, this.transform.position.z);
     }
 
     public void goRight()
@@ -108,20 +112,13 @@ public class PlayerController : MonoBehaviour, Player
         Debug.Log("Player Right");
         if (lane == LEFT_LANE || lane == CENTER_LANE)
         {
-            lane += 0.5f;
-            //rb.velocity = new Vector3(horizontalSpeed, 0, movementSpeed);
-            //velocity.x = horizontalSpeed;
-            //velocity.z = movementSpeed;
-            parent_rb.velocity = new Vector3(horizontalSpeed, parent_rb.velocity.y, movementSpeed);
-            StartCoroutine(stopSlide(0.5f));
+            lane_step = 0.5f;
+            lane += lane_step;
+            isLaneChanging = true;
+            h_speed = Mathf.Abs(h_speed);
         }
-
-        // This code locks to lane, which is not preferable
-        //float new_x = (this.transform.position.x == -COLUMN_DISTANCE) ? 0 : COLUMN_DISTANCE;
-        //this.transform.position = new Vector3(new_x, this.transform.position.y, this.transform.position.z);
     }
 
-    float jumpForce = 13.0f;
     public bool isGrounded = true;
     public void goUp()
     {
@@ -142,32 +139,6 @@ public class PlayerController : MonoBehaviour, Player
         if (isGrounded)
         {
             animator.SetTrigger("slide");
-        }
-        
-        //this.transform.position = new Vector3(-COLUMN_DISTANCE, this.transform.position.y, this.transform.position.z);
+        }        
     }
-
-    IEnumerator stopSlide(float lane_step)
-    {
-        yield return new WaitForSeconds(slide_duration);
-        lane += lane_step;
-
-        velocity.x = 0;
-        velocity.z = movementSpeed;
-
-        parent_rb.velocity = new Vector3(0, parent_rb.velocity.y, movementSpeed);
-        // Buggy: Aligns to center so that left and right movements are calibrated back
-        if (lane == CENTER_LANE)
-        {
-            this.transform.position = new Vector3(0, this.transform.position.y, this.transform.position.z);
-        }
-    }
-
-    //IEnumerator stopJump()
-    //{
-    //    yield return new WaitForSeconds(.75f);
-    //    rb.velocity -= new Vector3(rb.velocity.x, -2*verticalVelocity, movementSpeed);
-    //    yield return new WaitForSeconds(.75f);
-    //    rb.velocity = new Vector3(rb.velocity.x, 0, movementSpeed);
-    //}
 }
