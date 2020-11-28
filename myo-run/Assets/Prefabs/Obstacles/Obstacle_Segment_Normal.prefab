@@ -230,6 +230,7 @@ Transform:
   - {fileID: 5863164513302454323}
   - {fileID: 2323509994322944765}
   - {fileID: 305949444903602252}
+  - {fileID: 3692225764668729059}
   - {fileID: 1730713679457736206}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -346,7 +347,7 @@ Transform:
   - {fileID: 1730713679457767642}
   - {fileID: 1730713679457699514}
   m_Father: {fileID: 6435424632084456356}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &7936304860859040069
 BoxCollider:
@@ -705,3 +706,47 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.000149, y: 1.089235, z: 1.000149}
   m_Center: {x: 0, y: 0.51124305, z: 0}
+--- !u!1 &6424116095286719842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3692225764668729059}
+  - component: {fileID: 7205140672174876297}
+  m_Layer: 0
+  m_Name: PoliceStation (1)
+  m_TagString: ObstacleRoad
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3692225764668729059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424116095286719842}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 4.33, y: 0, z: 3.3}
+  m_LocalScale: {x: 0.9, y: 1, z: 1.61}
+  m_Children: []
+  m_Father: {fileID: 6435424632084456356}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &7205140672174876297
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424116095286719842}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.58, y: 0.24, z: 4.09}
+  m_Center: {x: -0.75, y: 5.44, z: 0.01}

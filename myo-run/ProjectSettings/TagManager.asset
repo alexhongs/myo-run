@@ -11,6 +11,9 @@ TagManager:
   - ObstacleNormal
   - ObstacleHard
   - Road
+  - PlayerParent
+  - ObstacleRoad
+  - Coin
   layers:
   - Default
   - TransparentFX

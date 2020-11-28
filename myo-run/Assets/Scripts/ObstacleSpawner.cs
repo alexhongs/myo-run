@@ -10,13 +10,16 @@ public class ObstacleSpawner : MonoBehaviour
 
     public List<GameObject> obstaclePrefabNormal;
     private float normalObstacleDistance = 40.0f;
+
+    public List<GameObject> obstaclePrefabHard;
+    private float hardObstacleDistance = 80.0f;
     //public List<GameObject> OBSTACLE_PREFAB_EASY;
     //public List<GameObject> OBSTACLE_PREFAB_EASY;
 
     private List<GameObject> train;
 
     public HashSet<GameObject> obstaclesToDestroy;
-    private int numberOfObstaclesToDestroy = 2;
+    private int numberOfObstaclesToDestroy = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -45,13 +48,13 @@ public class ObstacleSpawner : MonoBehaviour
     {
         var prefab_list = obstaclePrefabEasy;
         int level = Random.Range(0, 10);
-        if(7 < level && level < 9)
+        if (7 < level && level < 9)
         {
             prefab_list = obstaclePrefabNormal;
         }
         else if (9 <= level)
         {
-            prefab_list = obstaclePrefabNormal;
+            prefab_list = obstaclePrefabHard;
 
         }
 
@@ -112,6 +115,8 @@ public class ObstacleSpawner : MonoBehaviour
     // TODO: Might need to make to do optimizations on game object destruction
     private void DestroyObjectsWhenFullandRegenerate()
     {
+        Debug.Log("Checking to see if destroy obstacles"+ obstaclesToDestroy.Count + " / " + numberOfObstaclesToDestroy);
+
         if (obstaclesToDestroy.Count > numberOfObstaclesToDestroy)
         {
             // Destroy obstacles
