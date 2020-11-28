@@ -6,7 +6,7 @@ public class CoinController : MonoBehaviour
 {
     public HashSet<GameObject> obstaclesToDestroy;
     private int numberOfObstaclesToDestroy = 20;
-
+    public ScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,7 @@ public class CoinController : MonoBehaviour
             obstaclesToDestroy.Add(obj);
             obj.SetActive(false);
             Debug.Log("Coin Controller Hit! " + other.gameObject.name + "  and  " + obj.name + "  " + obstaclesToDestroy.Count);
-
+            scoreManager.incrementGiftScore();
             DestroyObjectsWhenFullandRegenerate();
         }
         //Debug.Log("Player Trigger Enter!");
