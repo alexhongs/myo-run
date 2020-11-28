@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour, Player
     public SpawnManager spawnManager;
     GameObject playerParent;
     Rigidbody parent_rb;
+    Vector3 velocity;
 
     Animator animator;
     public Animator santaAnimator;
@@ -19,8 +20,6 @@ public class PlayerController : MonoBehaviour, Player
         parent_rb = playerParent.GetComponent<Rigidbody>();
         parent_rb.velocity = new Vector3(0,0, movementSpeed);
         velocity = new Vector3(0, 0, movementSpeed);
-        lane = 0;
-
         animator = this.GetComponent<Animator>();
     }
     
@@ -53,15 +52,20 @@ public class PlayerController : MonoBehaviour, Player
         {
             Vector3 horizontalMove = transform.right * h_speed * Time.fixedDeltaTime;
             Vector3 newPosition = parent_rb.position + horizontalMove;
-            if(newPosition.x > 3.7f)
+            if(newPosition.x > 3.7f && next_lane == RIGHT_LANE)
             {
+                previous_lane = next_lane;
                 isLaneChanging = false;
-                lane += lane_step;
             }
-            if(newPosition.x < -3.7f)
+            if(Mathf.Abs(newPosition.x) < 0.05f && next_lane == CENTER_LANE)
+            {
+                previous_lane = next_lane;
+                isLaneChanging = false;
+            }
+            if(newPosition.x < -3.7f && next_lane == LEFT_LANE)
             {
                 isLaneChanging = false;
-                lane += lane_step;
+                previous_lane = next_lane;
             }
             parent_rb.MovePosition(parent_rb.position + horizontalMove);
         }
@@ -81,7 +85,6 @@ public class PlayerController : MonoBehaviour, Player
             santaAnimator.SetTrigger("run");
             santaAnimator.ResetTrigger("jump");
         }
-        //Debug.Log("Player Trigger Enter!");
     }
 
     public float horizontalSpeed = 10.0f;
@@ -91,17 +94,24 @@ public class PlayerController : MonoBehaviour, Player
     float CENTER_LANE = 0.0f;
     float LEFT_LANE = -1.0f;
 
-    float lane = 0; // left: -1, center: 0, right: 1
+    float next_lane = 0; // left: -1, center: 0, right: 1
+    float previous_lane = 0;
     bool isLaneChanging = false;
-    float lane_step = 0.0f;
+
 
     public void goLeft()
     {
         Debug.Log("Player Left");
-        if (lane == RIGHT_LANE || lane == CENTER_LANE)
+        if (previous_lane == CENTER_LANE || previous_lane == RIGHT_LANE)
         {
-            lane_step = -0.5f;
-            lane += lane_step;
+            if(previous_lane == CENTER_LANE)
+            {
+                next_lane = LEFT_LANE;
+            }
+            else if (previous_lane == RIGHT_LANE)
+            {
+                next_lane = CENTER_LANE;
+            }
             isLaneChanging = true;
             h_speed = -1 * Mathf.Abs(h_speed);
         }
@@ -110,10 +120,16 @@ public class PlayerController : MonoBehaviour, Player
     public void goRight()
     {
         Debug.Log("Player Right");
-        if (lane == LEFT_LANE || lane == CENTER_LANE)
+        if (previous_lane == CENTER_LANE || previous_lane == LEFT_LANE)
         {
-            lane_step = 0.5f;
-            lane += lane_step;
+            if (previous_lane == CENTER_LANE)
+            {
+                next_lane = RIGHT_LANE;
+            }
+            else if (previous_lane == LEFT_LANE)
+            {
+                next_lane = CENTER_LANE;
+            }
             isLaneChanging = true;
             h_speed = Mathf.Abs(h_speed);
         }
