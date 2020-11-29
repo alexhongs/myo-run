@@ -7,6 +7,13 @@ import sys
 import string
 import numpy as np
 from sklearn.svm import SVC
+import string
+from scipy.signal import find_peaks
+import statistics as stat
+from scipy import signal
+from scipy.fft import fft
+from pywt import dwt
+
 
 def trainSVM():
 
@@ -43,7 +50,66 @@ def trainSVM():
     clf.fit(data,labels)
     SVC()
 
+    print("trained SVM")
+
     return clf
+
+
+def featureExtraction(window):
+    
+    t = 300 # number of time stamps
+    e = 5 # number of electrodes
+
+    #npData=np.zeros([t,e]) # replace npData here ######
+    npData=np.array(window)
+
+    #### Butterworth Filter Data #####
+    fs = 1000
+    cutoff = 150 * 2 / fs
+    b, a = signal.butter(5, cutoff, btype='lowpass')
+
+    filtered = np.zeros([t,e])
+
+    for j in range(e):
+      filtered[:,j] = signal.filtfilt(b, a, npData[:,j])
+
+    ######## Max Data ########
+
+    max_data = [0 for x in range(e)]
+    for j in range(e):
+        max_data[j] = max(npData[:,j])
+
+    ##### FFT ######
+    half = 150
+    data_fft = np.zeros([half,e])
+
+    for k in range(e):
+      data_fft[:,k] = fft(npData[:,k])[0:half]
+
+    feature_vector_size = 15
+
+    ### Close Fist ####
+
+    feature_vector = [0 for x in range(feature_vector_size)]
+
+    mean = np.mean(max_data)
+    for j in range(e):
+      feature_vector[j] = max_data[j]
+      if max_data[j] > mean:
+          feature_vector[j+5] = 1
+
+      peaks, _ = find_peaks(data_fft[:,j])
+      if len(peaks) == 0:
+        max_peak = -1
+      else:
+        max_peak = peaks[0]
+        if peaks[0] == 0:
+          max_peak = peaks[1]
+      feature_vector[j+10] = max_peak
+
+    print(feature_vector)
+
+    return feature_vector
 
 
 def main():
@@ -67,15 +133,19 @@ def main():
             newSample=[0]*numElectrodes;
 
             j=0;
+            #print(string)
             for val in string.split("  "):
                 newSample[j]=int(val)
                 j+=1
-            window.append(newSample)
+            window[i]=newSample
 
         print(window)
-        #extract feartures from window
-        classification=clf.predict([window])
+        featureVector=featureExtraction(window)
 
+        #extract features from window
+        classification=clf.predict([featureVector])
+
+        #still need something to do with close_fist class
 
         if(classification==1):
             print("LEFT")
