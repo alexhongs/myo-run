@@ -37,7 +37,8 @@ void loop() // runs repeatedly after setup() finishes
   if (sensorValue5<200) {
     delay(1);             // Pause 1 milliseconds
   } else {
-    delay(1000);             // Pause 1000 milliseconds
+    delay(500);             // Pause 1000 milliseconds
+    //delay(1);
   } 
 
   
