@@ -55,5 +55,5 @@ void loop() // runs repeatedly after setup() finishes
     digitalWrite(ledPin, HIGH); }     // Keep the LED on
    */
 
-  delay(1);             // Pause 100 milliseconds
+  //delay(1);             // Pause 100 milliseconds
 }
