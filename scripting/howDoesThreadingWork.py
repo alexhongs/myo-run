@@ -14,3 +14,11 @@ t.start()
 result = que_ret.get()
 print(result)
 print(que_ret.qsize())
+
+a=[1, 2, 3]
+
+def bar(a):
+    a.pop()
+
+bar(a)
+print(a)

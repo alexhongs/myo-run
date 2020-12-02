@@ -114,45 +114,61 @@ def featureExtraction(window):
     return feature_vector
 
 
-def recordWindow(que_ret):
+def recordWindow(que_ret,ser,clf):
 
-    window=[0]*300;
-    for i in range(0,300):
-        b=ser.readline()         # read a byte string
-        string_n=b.decode()      # decode byte string into Unicode  
-        string=string_n.rstrip() # remove \n and \r
+    while True:
+        print("entering sensing thread")
 
-        newSample=[0]*numElectrodes;
+        numElectrodes=5
 
-        j=0;
-        #print(string)
-        for val in string.split("  "):
-            newSample[j]=int(val)
-            j+=1
-        window[i]=newSample
+        #print("still here")
 
-    #print(window)
-    featureVector=featureExtraction(window)
+        window=[0]*300;
+        for i in range(0,300):
+            #print("in the reading loop now")
+            b=ser.readline()         # read a byte string
+            string_n=b.decode()      # decode byte string into Unicode  
+            string=string_n.rstrip() # remove \n and \r
 
-    #extract features from window
-    classification=clf.predict([featureVector])
+            newSample=[0]*numElectrodes;
+
+            j=0;
+            #print(string)
+            for val in string.split("  "):
+                newSample[j]=int(val)
+                j+=1
+            window[i]=newSample
+
+        #print(window)
+        #print("extracting some features")
+        featureVector=featureExtraction(window)
+
+        #print("we still out here")
+        #extract features from window
+        classification=clf.predict([featureVector])
+        que_ret.put(classification)
+        print("classification %d enqueued" %classification)
+
+        #t.join()
 
 
 
 def main():
 
     clf=trainSVM()
-    numElectrodes=5
     que_ret = queue.Queue()
 
     # set up the serial line
-    ser=serial.Serial('/dev/cu.usbmodem143101', 9600)
+    ser=serial.Serial('/dev/cu.usbmodem14301', 9600)
+    motionDelay=100
+
+    t=Thread(target=recordWindow, args=([que_ret,ser,clf]), daemon=False)
+    t.start()
 
     while True:
 
-        t=Thread(target=recordWindow, args=([que_ret]), daemon=True)
-        t.start()
 
+        #print("queue size is ",que_ret.qsize())
         if que_ret.empty():
             classification=0
         else:
@@ -161,23 +177,31 @@ def main():
         #still need something to do with close_fist class
 
         if (classification==0): 
-            print("relax")
+            #print("relax")
             streamer.sendData(str(EMG.RELAX))
-        if(classification==1):
+        elif(classification==1):
             print("LEFT")
-            streamer.sendData(str(EMG.EXTENSION))
-            #time.sleep(0.001) 
+            for i in range(motionDelay):
+                streamer.sendData(str(EMG.EXTENSION))
+                time.sleep(0.001)
         elif(classification==2):
             print("RIGHT")
-            streamer.sendData(str(EMG.FLEXION))
+            for i in range(motionDelay):
+                streamer.sendData(str(EMG.FLEXIION))
+                time.sleep(0.001)
         elif(classification==3):
             print("UP")
-            streamer.sendData(str(EMG.PRONATION))
+            for i in range(motionDelay):
+                streamer.sendData(str(EMG.PRONATION))
+                time.sleep(0.001)
         elif(classification==4):
             print("DOWN")
-            streamer.sendData(str(EMG.SUPINATION))
+            for i in range(motionDelay):
+                streamer.sendData(str(EMG.SUPINATION))
+                time.sleep(0.001)
         #no else 
+        time.sleep(0.001) 
 
-        t.join()
+        #t.join()
 
 main()
