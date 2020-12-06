@@ -26,25 +26,25 @@ public class EMGController : MonoBehaviour
     {
         if (input.getButtonInput(EMG.Flexion))
         {
-            Debug.Log("Flexion Button Input!");
+            //Debug.Log("Flexion Button Input!");
             Player p = (Player)player;
             p.goLeft();
         }
         else if (input.getButtonInput(EMG.Extension))
         {
-            Debug.Log("Extension Button Input!");
+            //Debug.Log("Extension Button Input!");
             Player p = (Player)player;
             p.goRight();
         }
         else if (input.getButtonInput(EMG.Pronation))
         {
-            Debug.Log("Pronation Button Input!");
+            //Debug.Log("Pronation Button Input!");
             Player p = (Player)player;
             p.goUp();
         }
         else if (input.getButtonInput(EMG.Supination))
         {
-            Debug.Log("Supination Button Input!");
+            //Debug.Log("Supination Button Input!");
             Player p = (Player)player;
             p.goDown();
         }

@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, Player
 {
-    public float movementSpeed = 10f;
+    public float movementSpeed = 2f;
     public SpawnManager spawnManager;
     GameObject playerParent;
     Rigidbody parent_rb;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour, Player
         parent_rb.velocity = new Vector3(0,0, movementSpeed);
         velocity = new Vector3(0, 0, movementSpeed);
         animator = this.GetComponent<Animator>();
+        isLaneChanging = false;
     }
     
     // Update is called once per frame
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour, Player
             this.goDown();
         }
 
-        parent_rb.velocity = new Vector3(parent_rb.velocity.x, parent_rb.velocity.y, movementSpeed);
+        parent_rb.velocity = new Vector3(parent_rb.velocity.x, parent_rb.velocity.y, 8f);
     }
     public float h_speed = 10.0f;
     private void FixedUpdate()
@@ -56,31 +58,59 @@ public class PlayerController : MonoBehaviour, Player
             {
                 previous_lane = next_lane;
                 isLaneChanging = false;
+                previousX = parent_rb.position.x;
+                previousY = parent_rb.position.y;
+                savePreviousXY();
             }
-            if(Mathf.Abs(newPosition.x) < 0.05f && next_lane == CENTER_LANE)
+            else if(Mathf.Abs(newPosition.x) < 0.05f && next_lane == CENTER_LANE)
             {
                 previous_lane = next_lane;
                 isLaneChanging = false;
+                savePreviousXY();
             }
-            if(newPosition.x < -3.7f && next_lane == LEFT_LANE)
+            else if(newPosition.x < -3.7f && next_lane == LEFT_LANE)
             {
                 isLaneChanging = false;
                 previous_lane = next_lane;
+                savePreviousXY();
+            }
+            else if(next_lane == CENTER_LANE && previous_lane == LEFT_LANE && newPosition.x > 0.1f )
+            {
+                isLaneChanging = false;
+                previous_lane = next_lane;
+                savePreviousXY();
+            }
+            else if (next_lane == CENTER_LANE && previous_lane == RIGHT_LANE && newPosition.x < -0.1f)
+            {
+                isLaneChanging = false;
+                previous_lane = next_lane;
+                savePreviousXY();
             }
             parent_rb.MovePosition(parent_rb.position + horizontalMove);
+
+            if (firstChange && (previousX != parent_rb.position.x || previousY != parent_rb.position.y))
+            {
+                firstChange = false;
+                log(1);
+            }
         }
     }
-
+    float previousX = 0.0f;
+    float previousY = 0.0f;
+    void savePreviousXY()
+    {
+        previousX = parent_rb.position.x;
+        previousY = parent_rb.position.y;
+        //firstChange = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "SpawnTrigger")
         {
-            Debug.Log("Road Spawn Trigger Entered");
             spawnManager.SpawnTriggerEntered();
         }
         if(other.tag == "ObstacleRoad")
         {
-            Debug.Log("Obstacle Road Entered");
             isGrounded = true;
             santaAnimator.SetTrigger("run");
             santaAnimator.ResetTrigger("jump");
@@ -98,13 +128,18 @@ public class PlayerController : MonoBehaviour, Player
     float previous_lane = 0;
     bool isLaneChanging = false;
 
-
+    public bool firstChange = true;
     public void goLeft()
     {
-        Debug.Log("Player Left");
         if (previous_lane == CENTER_LANE || previous_lane == RIGHT_LANE)
         {
-            if(previous_lane == CENTER_LANE)
+            if (previous_lane == CENTER_LANE && next_lane == RIGHT_LANE)
+            {
+                next_lane = CENTER_LANE;
+                previous_lane = RIGHT_LANE;
+            }
+
+            if (previous_lane == CENTER_LANE)
             {
                 next_lane = LEFT_LANE;
             }
@@ -112,16 +147,28 @@ public class PlayerController : MonoBehaviour, Player
             {
                 next_lane = CENTER_LANE;
             }
-            isLaneChanging = true;
+            if(!isLaneChanging)
+            {
+                log(1);
+                isLaneChanging = true;
+            }
+            //isLaneChanging = true;
             h_speed = -1 * Mathf.Abs(h_speed);
+            previousX = parent_rb.position.x;
+            previousY = parent_rb.position.y;
         }
     }
 
     public void goRight()
     {
-        Debug.Log("Player Right");
         if (previous_lane == CENTER_LANE || previous_lane == LEFT_LANE)
         {
+            if(previous_lane == CENTER_LANE && next_lane == LEFT_LANE)
+            {
+                next_lane = CENTER_LANE;
+                previous_lane = LEFT_LANE;
+            }
+            
             if (previous_lane == CENTER_LANE)
             {
                 next_lane = RIGHT_LANE;
@@ -130,15 +177,22 @@ public class PlayerController : MonoBehaviour, Player
             {
                 next_lane = CENTER_LANE;
             }
-            isLaneChanging = true;
+            if (!isLaneChanging)
+            {
+                log(1);
+                isLaneChanging = true;
+            }
+            //isLaneChanging = true;
             h_speed = Mathf.Abs(h_speed);
+            previousX = parent_rb.position.x;
+            previousY = parent_rb.position.y;
         }
     }
 
     public bool isGrounded = true;
     public void goUp()
     {
-        Debug.Log("Player Jump");
+        //Debug.Log("Player Jump");
         if(isGrounded)
         {
             isGrounded = false;
@@ -146,15 +200,35 @@ public class PlayerController : MonoBehaviour, Player
             parent_rb.velocity = new Vector3(parent_rb.velocity.x, 11.0f, movementSpeed);
             santaAnimator.SetTrigger("jump");
             santaAnimator.ResetTrigger("run");
+            log(0);
         }
     }
 
     public void goDown()
     {
-        Debug.Log("Player Slide");
+        //Debug.Log("Player Slide");
         if (isGrounded)
         {
             animator.SetTrigger("slide");
+            log(0);
         }        
+    }
+    int logNumber = 1;
+    void log(int isHorizontal)
+    {
+        //if(isHorizontal == 1 && !firstChange)
+        //{
+        //    Debug.Log(logNumber.ToString() + " : " + DateTime.UtcNow.ToString("hh.mm.ss.ffffff"));
+        //    logNumber++;
+        //    firstChange = true;
+        //}
+        //else
+        //{
+        //    Debug.Log(logNumber.ToString() + " : " + DateTime.UtcNow.ToString("hh.mm.ss.ffffff"));
+        //    logNumber++;
+        //}
+        Debug.Log(logNumber.ToString() + " : " + DateTime.UtcNow.ToString("hh.mm.ss.ffffff"));
+        logNumber++;
+        //Debug.Log(DateTimeOffset.Now.ToUnixTimeMilliseconds());
     }
 }

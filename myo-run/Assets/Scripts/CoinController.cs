@@ -26,7 +26,7 @@ public class CoinController : MonoBehaviour
             GameObject obj = other.gameObject;
             obstaclesToDestroy.Add(obj);
             obj.SetActive(false);
-            Debug.Log("Coin Controller Hit! " + other.gameObject.name + "  and  " + obj.name + "  " + obstaclesToDestroy.Count);
+            //Debug.Log("Coin Controller Hit! " + other.gameObject.name + "  and  " + obj.name + "  " + obstaclesToDestroy.Count);
             scoreManager.incrementGiftScore();
             DestroyObjectsWhenFullandRegenerate();
         }

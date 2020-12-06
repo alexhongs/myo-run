@@ -5,6 +5,7 @@ using UnityEngine;
 // Camera to Follow the Player at offset'd distance
 public class CameraController : MonoBehaviour
 {
+    public PlayerController playerController;
     private Transform player;
 
     private float yOffset = 6.96f;

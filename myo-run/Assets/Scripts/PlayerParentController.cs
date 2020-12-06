@@ -18,11 +18,9 @@ public class PlayerParentController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Player Collision Enter!");
         if (collision.collider.tag == "Road")
         {
             player.isGrounded = true;
-            Debug.Log("Santa animator run triggered!");
             player.santaAnimator.SetTrigger("run");
             player.santaAnimator.ResetTrigger("jump");
         }
@@ -32,12 +30,10 @@ public class PlayerParentController : MonoBehaviour
     {
         if (other.tag == "SpawnTrigger")
         {
-            Debug.Log("Road Spawn Trigger Entered");
             player.spawnManager.SpawnTriggerEntered();
         }
         if (other.tag == "ObstacleRoad")
         {
-            Debug.Log("Obstacle Road Entered");
             player.isGrounded = true;
             player.santaAnimator.SetTrigger("run");
             player.santaAnimator.ResetTrigger("jump");

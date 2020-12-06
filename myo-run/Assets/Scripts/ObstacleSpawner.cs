@@ -19,7 +19,7 @@ public class ObstacleSpawner : MonoBehaviour
     private List<GameObject> train;
 
     public HashSet<GameObject> obstaclesToDestroy;
-    private int numberOfObstaclesToDestroy = 5;
+    private int numberOfObstaclesToDestroy = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -46,9 +46,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     GameObject getRandomPrefab()
     {
+        //return obstaclePrefabNormal[6];
         var prefab_list = obstaclePrefabEasy;
         int level = Random.Range(0, 10);
-        if (7 < level && level < 9)
+        if (4 < level && level < 8)
         {
             prefab_list = obstaclePrefabNormal;
         }
@@ -79,7 +80,10 @@ public class ObstacleSpawner : MonoBehaviour
         {
             distance = normalObstacleDistance;
         }
-
+        else if (lastObject.tag == "ObstacleHard")
+        {
+            distance = hardObstacleDistance;
+        }
         GameObject newObject = Instantiate(prefab, new Vector3(0, 0, lastObjectZ + distance), Quaternion.identity);
         //Debug.Log("last object's tag " + lastObject.tag + "  pos : " + lastObject.transform.position.z + "  new object  pos : " + newObject.transform.position.z + "  train: " + train.Count + "  obstacleEasy : " + );
 
@@ -89,33 +93,21 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Obstacle")
+        //Debug.Log("Obstacle hit! " + other.tag);
+        
+        GameObject obj = other.gameObject.transform.parent.gameObject;
+        if (!obstaclesToDestroy.Contains(obj))
         {
-            //Destroy(other.gameObject);
-
-            // Destory the entier obstacle group to optimize destroying and synchronize  with obstacle creation
-            // which is created in groups.
-            GameObject obj = other.gameObject.transform.parent.gameObject;
-            if (obj)
-            {
-                
-                train.Remove(obj);
-
-                obstaclesToDestroy.Add(obj);
-                Debug.Log("ObstacleSpawner Hit! " + other.gameObject.name + "  and  " + obj.name + "  " +  obstaclesToDestroy.Count);
-                
-                DestroyObjectsWhenFullandRegenerate();
-            }
-
-
-            //createObstacle(getRandomPrefab());
+            train.Remove(obj);
+            obstaclesToDestroy.Add(obj);
+            DestroyObjectsWhenFullandRegenerate();
         }
     }
 
     // TODO: Might need to make to do optimizations on game object destruction
     private void DestroyObjectsWhenFullandRegenerate()
     {
-        Debug.Log("Checking to see if destroy obstacles"+ obstaclesToDestroy.Count + " / " + numberOfObstaclesToDestroy);
+        //Debug.Log("Checking to see if destroy obstacles" + obstaclesToDestroy.Count + " / " + numberOfObstaclesToDestroy);
 
         if (obstaclesToDestroy.Count > numberOfObstaclesToDestroy)
         {

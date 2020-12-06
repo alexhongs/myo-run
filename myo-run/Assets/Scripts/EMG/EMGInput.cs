@@ -34,8 +34,6 @@ public class EMGInput : MonoBehaviour
 
     void StartReceiver()
     {
-        Debug.Log("Starting Client");
-
         IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 18500);
         EndPoint ep = (EndPoint)ipep;
         socket = new Socket(AddressFamily.InterNetwork,
@@ -89,7 +87,7 @@ public class EMGInput : MonoBehaviour
     {
         if (lastInput.Equals(emg) && !alreadyPressed && !lastInput.Equals(EMG.None))
         {
-            Debug.Log("Pressed " + emg.ToString() + " last input : " + lastInput.ToString());
+            //Debug.Log("Pressed " + emg.ToString() + " last input : " + lastInput.ToString());
             alreadyPressed = true;
             return true;
         }
