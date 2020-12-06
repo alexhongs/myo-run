@@ -1,0 +1,31 @@
+%% set up file io
+
+fidData = fopen( 'csdTrainScratch.csv', 'w' );
+fidLabels = fopen( 'csdTestScratch.csv', 'w' );
+
+%% extension
+time=[0:1:300]; %in seconds
+snr=10;
+
+for trial 1:10
+
+e1=awgn(60*sech(0.4*(time-100)),snr,'measured');
+e2=awgn(60*sech(0.4*(time-100)),snr,'measured');
+e3=awgn(350*sech(0.4*(time-120)),snr,'measured');
+e4=awgn(0*time,snr,'measured');
+e5=awgn(400*sech(0.4*(time-100)),snr,'measured');
+
+end
+
+%blue, red, orange, purple, green
+
+%% plot  waveforms
+plot(time,e1);
+hold on
+plot(time,e2);
+plot(time,e3);
+plot(time,e4);
+plot(time,e5);
+legend('e1','e2','e3','e4','e5');
+hold off
+

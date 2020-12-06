@@ -20,7 +20,7 @@ import string
 def main():
 
     # set up the serial line
-    ser = serial.Serial('/dev/cu.usbmodem143101', 9600)
+    ser = serial.Serial('/dev/cu.usbmodem141101', 9600)
 
 
 
@@ -38,8 +38,9 @@ def main():
 
         if(goingLeft):
             print("LEFT")
-            streamer.sendData(str(EMG.FLEXION))
-            time.sleep(1) 
+            #streamer.sendData(str(EMG.FLEXION))
+            streamer.sendData(str(EMG.PRONATION))
+            time.sleep(0.5) 
         else:
             print("relax")
             streamer.sendData(str(EMG.RELAX))
