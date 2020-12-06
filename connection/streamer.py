@@ -16,7 +16,7 @@ class EMG(enum.Enum):
     return str(self.value)
 
 def sendData(data):
-  print("Sending Data " + data + " to " + str(address))
+  # print("Sending Data " + data + " to " + str(address))
   bytesToSend = str.encode(data)
   UDPServerSocket.sendto(bytesToSend, address)
 
